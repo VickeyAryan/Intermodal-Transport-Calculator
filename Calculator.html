@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Intermodal Transport Calculator</title>
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .calculator-container {
+            margin: auto;
+            width: fit-content;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        table {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #scoreResult {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        /* Added style for explanation text */
+        .explanation {
+            font-size: 14px; /* Smaller than the heading for subtlety */
+            margin-top: -10px; /* Adjust as needed for spacing */
+            margin-bottom: 20px; /* Additional space before the calculator */
+      </style>
+    </head>
+    <body>
+      <h1>Intermodal Transport Calculator</h1>
+      <!-- Added div for explanatory text -->
+    <div class="explanation">
+        <p>Balance cost & time for your intermodal shipment. Enter details & we'll calculate the optimal route based on your priorities.</p>
+    </div>
+      <div class="calculator-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Route Selection</th>
+              <th>Option 1 (Cost, Time)</th>
+              <th>Option 2 (Cost, Time)</th>
+              <th>Choose Option</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A->B</td>
+              <td>£20, 1 Day</td>
+              <td>£7, 3 Days</td>
+              <td>
+                <select id="AB">
+                  <option value="20,1">Option 1</option>
+                  <option value="7,3">Option 2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>B->C</td>
+              <td>£12, 5 Days</td>
+              <td>£6, 12 Days</td>
+              <td>
+                <select id="BC">
+                  <option value="12,5">Option 1</option>
+                  <option value="6,12">Option 2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>C->D</td>
+              <td>£18, 21 Days</td>
+              <td>£80, 2 Days</td>
+              <td>
+                <select id="CD">
+                  <option value="18,21">Option 1</option>
+                  <option value="80,2">Option 2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>D->E</td>
+              <td>£11, 4 Days</td>
+              <td>£9, 8 Days</td>
+              <td>
+                <select id="DE">
+                  <option value="11,4">Option 1</option>
+                  <option value="9,8">Option 2</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>E->F</td>
+              <td>£18, 1 Day</td>
+              <td>£8, 3 Days</td>
+              <td>
+                <select id="EF">
+                  <option value="18,1">Option 1</option>
+                  <option value="8,3">Option 2</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="calculateScore()">Calculate</button>
+      </div>
+    <div id="totalScore">Total Score: </div>
+
+    <script>
+        // Your calculateScore function (no changes needed) 
+        function calculateScore() {
+            const routeData = {
+                'AB': { option1: { cost: 20, time: 1 }, option2: { cost: 7, time: 3 } },
+                'BC': { option1: { cost: 12, time: 5 }, option2: { cost: 6, time: 12 } },
+                'CD': { option1: { cost: 18, time: 21 }, option2: { cost: 80, time: 2 } },
+                'DE': { option1: { cost: 11, time: 4 }, option2: { cost: 9, time: 8 } },
+                'EF': { option1: { cost: 18, time: 1 }, option2: { cost: 8, time: 3 } }
+            };
+
+            const routes = ['AB', 'BC', 'CD', 'DE', 'EF'];
+            let totalCost = 0;
+            let totalTime = 0;
+
+            routes.forEach(route => {
+                const select = document.getElementById(route); 
+                const selectedOption = select.value.split(',').map(Number); 
+                const selectedOptionCost = selectedOption[0];
+                const selectedOptionTime = selectedOption[1]; 
+                totalCost += selectedOptionCost;
+                totalTime += selectedOptionTime;
+            });
+
+            const score = (totalCost * 0.9 + totalTime * 0.1).toFixed(2);
+            console.log(score);
+            document.getElementById('totalScore').innerText = `Total Score = ${score}`;
+        }
+
+    </script>
+
+</body>
+</html>

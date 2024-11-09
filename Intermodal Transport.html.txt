@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermodel Transport</title>
+    <!-- Add CSS for styling -->
+</head>
+<body>
+    <div id="logo">
+        <img src="data:image/png;base64," alt="LetsRoute Logo" style="width: 150px;">
+    </div>
+    <h1>Intermodal Transport Scorecard</h1>
+    <form id="transportForm">
+        <p>Choose the Mode of Transport for each route:</p>
+        <div>
+            <label>A->B: </label>
+            <input type="radio" name="AB" value="20,1">Option 1
+            <input type="radio" name="AB" value="7,3">Option 2
+        </div>
+        <div>
+            <label>B->C: </label>
+            <input type="radio" name="BC" value="12,5">Option 1
+            <input type="radio" name="BC" value="6,12">Option 2
+        </div>
+        <div>
+            <label>C->D: </label>
+            <input type="radio" name="CD" value="18,21">Option 1
+            <input type="radio" name="CD" value="80,2">Option 2
+        </div>
+        <div>
+            <label>D->E: </label>
+            <input type="radio" name="DE" value="11,4">Option 1
+            <input type="radio" name="DE" value="9,8">Option 2
+        </div>
+        <div>
+            <label>E->F: </label>
+            <input type="radio" name="EF" value="18,1">Option 1
+            <input type="radio" name="EF" value="8,3">Option 2
+        </div>
+        <button type="button" onclick="calculateScore()">Calculate</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function calculateScore() {
+            let form = document.getElementById('transportForm');
+            let totalCost = 0, totalTime = 0;
+            for (let i = 0; i < form.length; i++) {
+                if (form[i].checked) {
+                    let values = form[i].value.split(',');
+                    totalCost += parseInt(values[0]);
+                    totalTime += parseInt(values[1]);
+                }
+            }
+            let totalScore = (totalCost * 0.9) + (totalTime * 0.1);
+            document.getElementById('result').innerHTML = `Total Cost: ${totalCost}, Total Time: ${totalTime} days, Total Score: ${totalScore.toFixed(2)}`;
+        }
+    }
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    form {
+        margin-bottom: 20px;
+    }
+    label, input, select {
+        display: block;
+        margin: 10px 0;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
